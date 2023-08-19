@@ -1,0 +1,94 @@
+*{
+    padding: 0;
+    border:0;
+    box-sizing:border-box;
+}
+:root{
+    --succeed-color:#2691d9;
+    --error-color:#e74c3c;
+}
+body{
+    height: 100vh;
+    background: rgb(195, 132, 132);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.container{
+    width:400px;
+    border: none;
+    background-color: aliceblue;
+    border-radius: 8px;
+    padding:40px;
+}
+.container h1 {
+    text-align: center;
+    margin-bottom: 50px;
+}
+.form-control{
+    width: 100%;
+    position: relative;
+    margin-bottom: 60px;
+}
+.form-control input {
+    width:100%;
+    height: 40px;
+    font-size: 30px;
+    border: none;
+    outline: none;
+    border-bottom: 3px #adadad solid;
+}
+.form-control span{
+    display: inline-block;
+    width: 0;
+    height:5px;
+    background-color:var(--succeed-color);
+    position: absolute;
+    top:37px;
+    left:0;
+    transition: 0.4s;
+}
+.form-control input:focus  ~ span {
+   width: 100%;
+}
+/* css class error vào small và border-bottom */
+.form-control.error small{
+    color: var(--error-color)
+}
+
+.form-control.error input{
+    border-bottom: 3px var(--error-color) solid;
+}
+/*  */
+.btn-submit{
+    width: 100%;
+    height:50px;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    font-size: 43px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    letter-spacing: 3px;
+    font-weight: 800;
+    background-color: var(--succeed-color);
+    color:white;
+    cursor: pointer;
+}
+.btn-submit:hover {
+    background-color: #08609a;
+    transition: 0.4s;
+}
+.signup-link  {
+    margin-top: 10px;
+    text-align: center;
+}
+.signup-link a {
+    color: var(--succeed-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+.signup-link a:hover{
+    text-decoration: underline;
+
+}

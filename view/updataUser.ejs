@@ -1,0 +1,25 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>updata user</title>
+    <link rel="stylesheet" href="/congkhai/a1.css">
+</head>
+<body>
+    <div class="updata-user-container">
+        <form action="/updata-user" method="post">
+            <p>first name</p>
+            <input type="text" value="<%=data[0].firstName %>"  name="firstname"  >
+            <p>last name</p>
+            <input type="text" value="<%=data[0].lastName %>" name="lastname">
+            <p>email</p>
+            <input type="text" value="<%=data[0].email %>" name="email" >
+            <p>address</p>
+            <input type="text" value="<%=data[0].address %>"  name="address">
+            <input type="text" value="<%=data[0].id %>" hidden name="id">
+            <br>
+            <button type="submit" > submit</button>
+        </form>
+    </div>
+</body>
+</html>

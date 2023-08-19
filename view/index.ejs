@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nodejs basic</title>
+    <link rel="stylesheet" href="/congkhai/a1.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+    <div class="topnav">
+        <a class="active" href="/">Home</a>
+        <a href="/upload">Upload file</a>
+     
+      </div>
+      <div >
+        <div class="w3-container">
+            <h2>list user table</h2>
+            <table class="w3-table-all w3-hoverable">
+              <thead>
+                <tr class="w3-light-grey">
+                    <th>Id</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                    <% for(let i=0; i < dataUser.length; i++) { %>
+                       <tr>
+                         <td><%= dataUser[i].id %></td>
+                         <td><%= dataUser[i].firstName %></td>
+                         <td><%= dataUser[i].lastName %></td>
+                         <td>
+
+
+                            <a href="details/user/<%=dataUser[i].id%>">details</a>
+
+
+                            <form action="delete-user" method="post">
+                              <input type="text" hidden name="userId" value="<%=dataUser[i].id%>" >
+                              <button type="submit">delete</button>
+                            </form>
+
+                            
+                            <form action="edit-user/<%=dataUser[i].id%>" method="post" name="userId" >
+                              <input type="text" hidden name="userId" value="<%=dataUser[i].id%>" >
+                              <button type="submit">Edit</button>
+                            </form>
+                          
+
+                         </td>
+                       </tr>
+                    <% } %>
+              </tbody>
+            </table>
+          </div>
+      </div>
+      <div class="create-user-container" >
+      <p>create new users </p>
+      <form action="/create-new-user" method="POST">
+        <div>
+          <label>First name</label>
+          <input type="text" name="firstname">
+        </div>
+        <div>
+          <label>Last name</label>
+          <input type="text" name="lastname">
+        </div>
+        <div>
+          <label>Email</label>
+          <input type="email" name="email" >
+        </div>
+        <div>
+          <label>Address</label>
+          <input type="text" name="address">
+        </div>
+        <button type="submit" class="btn-submit">submit</button>
+      </form>
+      </div>
+    <img src="/congkhai/images/hinh1.jpg" alt="">
+</body>
+</html>
