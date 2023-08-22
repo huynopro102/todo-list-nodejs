@@ -15,6 +15,4 @@ const  router = express.Router()
         router.delete("/delete-user/:id",APIcontroller.DeleteUser)
     
     
-        
-    
 module.exports = router

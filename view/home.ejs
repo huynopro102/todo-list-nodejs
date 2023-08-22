@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h1> home </h1>
+    <h2>dâtt</h2>
+
+    <form action="" , method="post">
+
+        <button id="submit"  type="submit"> đăng xuất </button>
+
+    </form>
+
+
+</body>
+<script>
+    const btnsubmit = document.querySelector("#submit")
+    btnsubmit.addEventListener("click", function (e) {
+        fetch("", {
+            method: "post"
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Xử lý thành công
+                    console.log("Success");
+                } else {
+                    // Xử lý lỗi
+                    console.log("Request failed");
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    })
+</script>
+
+</html>

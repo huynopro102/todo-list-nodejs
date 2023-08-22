@@ -1,12 +1,19 @@
 const pool = require("../model/connectDB");
+const poolUser = require("../model/connectdbUser")
 const multer = require("multer")
 const path = require("path")
+const jwt = require("jsonwebtoken");
+const e = require("express");
+// const { use } = require("../Router/web");
+//
+const LocalStorage = require('node-localstorage').LocalStorage;
+const localStorage = new LocalStorage('./scratch');
+
 
 let gethomeController = async(req, res) => {
     const [rows, fields] = await pool.execute( 'SELECT * FROM `users`')
-const check = await pool.execute( 'SELECT * FROM `users`')
 // await pool.execute( 'SELECT * FROM `users`') sẽ trả về 1 mảng các phần tử trong db , 2 là trả về fields 
-    res.render("index.ejs", { dataUser: rows , test : "huy nguyen " });
+    res.render("index.ejs", { dataUser: rows });
 }
 
 let getDetailPage = async (req,res) =>{
@@ -79,7 +86,54 @@ let handleUploadFile = async(req,res)=>{
 let handleUploadMultipleFile = async(req,res)=>{
     res.json("upload multiple file")
 }
+
+// login 
+let postLogin = async (req,res) => {
+    const username = req.body.UserName
+    const password = req.body.Password
+    const [rows, fields] = await pool.execute( 'SELECT * FROM `datausers` where username = ? and password = ? '
+    ,[username,password])
+    if(rows.length == 1){
+        console.log("data ",(rows[0].id+rows[0].admin))
+        const token = jwt.sign( (rows[0].id+"/"+rows[0].admin) ,"matkhau123")
+        res.cookie(`token1`,token);
+        res.redirect("/home")
+    }else{
+        res.json("ko tim thay  tài khoản này ")
+    }
+}
+let getLogin = async(req,res) =>{
+    res.render("login.ejs")
+}
+ // form register 
+ let getRegister = async(req,res) =>{
+    res.render("register.ejs")
+ }
+ let postRegister = async(req,res)=>{
+    const username = req.body.username
+    const password = req.body.password
+    const email = req.body.email
+    console.log(username,password,email)
+
+    
+    const [rows, fields] = await pool.execute( 'INSERT INTO datausers(username,password,email,admin) VALUES(?,?,?,?)'
+    ,[username,password,email,0] )    
+    res.json("oke")
+ }
+
+ // trang chu home 
+
+ let getHome = async(req,res) =>{
+    res.render("home.ejs")
+ }
+
+let postHome = async(req,res) =>{
+//    const data = req.body.logout
+   res.clearCookie("token1")
+   res.redirect("/")
+}
 module.exports = {
     gethomeController , getDetailPage , createNewUser ,deleteUser , editUser , updataUser ,
-    UploadFile , handleUploadFile ,handleUploadMultipleFile
+    UploadFile , handleUploadFile ,handleUploadMultipleFile ,
+     postLogin , getLogin , getRegister, getHome , postHome , postRegister
 }

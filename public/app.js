@@ -84,22 +84,17 @@ function CheckMatchPasswordError(password,CFPassword){
 
 form.addEventListener('submit',function(e){
    // khi click vào thì ko bị load trang 
-    e.preventDefault()
+  
+
+
     let isEmptyError = checkEmptyError( [username,email,password,confirmpassword] )
- 
     let isEmailError = checkEmail(email)
     let isUsernameLengthError = checkLengthError(username,3,10)
     let isPasswordLengthError = checkLengthError(password,3,10)
     let isCheckMatchPasswordError = CheckMatchPasswordError(password,confirmpassword)
-    if()
-    // kiểm tra lỗi tổng
-    // if(isEmailError  || isEmptyError || isUsernameLengthError || isPasswordLengthError || isCheckMatchPasswordError){
-    //     // do nothing
-    //     alert("ko lỗi")
 
-    // }else{
-    //     // không thực thi
-    //     alert("lỗi")
-    // }
+
+    
+  
 })
 
