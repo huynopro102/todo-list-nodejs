@@ -1,13 +1,11 @@
 const pool = require("../model/connectDB");
-const poolUser = require("../model/connectdbUser")
+
 const multer = require("multer")
 const path = require("path")
 const jwt = require("jsonwebtoken");
 const e = require("express");
-// const { use } = require("../Router/web");
 //
-const LocalStorage = require('node-localstorage').LocalStorage;
-const localStorage = new LocalStorage('./scratch');
+
 
 
 let gethomeController = async(req, res) => {
@@ -93,13 +91,17 @@ let postLogin = async (req,res) => {
     const password = req.body.Password
     const [rows, fields] = await pool.execute( 'SELECT * FROM `datausers` where username = ? and password = ? '
     ,[username,password])
-    if(rows.length == 1){
-        console.log("data ",(rows[0].id+rows[0].admin))
+    if( rows[0].admin === 0 ){
         const token = jwt.sign( (rows[0].id+"/"+rows[0].admin) ,"matkhau123")
         res.cookie(`token1`,token);
         res.redirect("/home")
-    }else{
-        res.json("ko tim thay  tài khoản này ")
+    } else if(rows[0].admin === 1){
+        const tokenAdmin = jwt.sign(rows[0].id ,"matkhau1234" )
+        res.cookie("tokenAdmin",tokenAdmin)
+        res.redirect("/admin/v1")
+    }
+    else{
+        res.json("ko tim thay tài khoản này ")
     }
 }
 let getLogin = async(req,res) =>{
@@ -124,16 +126,34 @@ let getLogin = async(req,res) =>{
  // trang chu home 
 
  let getHome = async(req,res) =>{
-    res.render("home.ejs")
+    const token = req.cookies.token1
+
+    console.log("token ",token)
+
+    if(token === undefined ){
+        res.render("homeNoLogin.ejs")
+    }
+    if(token){
+        const result = jwt.verify(token , "matkhau123")
+        const id = result.split("/")
+        console.log("mang thong tin ",id)
+        const [rows,fields] = await pool.execute(' select * from datausers where id = ?',[id[0]])
+        console.log("data lay ddc ",rows[0])
+        res.render("home.ejs",{data : rows[0]})
+    }
  }
 
 let postHome = async(req,res) =>{
-//    const data = req.body.logout
    res.clearCookie("token1")
    res.redirect("/")
+}
+
+let postAdminV1 = async(req,res)=>{
+    res.clearCookie("tokenAdmin")
+    res.redirect("/login")
 }
 module.exports = {
     gethomeController , getDetailPage , createNewUser ,deleteUser , editUser , updataUser ,
     UploadFile , handleUploadFile ,handleUploadMultipleFile ,
-     postLogin , getLogin , getRegister, getHome , postHome , postRegister
+     postLogin , getLogin , getRegister, getHome , postHome , postRegister ,postAdminV1
 }

@@ -4,6 +4,7 @@ const router = express.Router()
 const multer = require("multer")
 const appRoot = require("app-root-path")
 const path = require("path")
+const MiddleWare = require("../MiddleWare/webMiddleWare")
 
 // nghiệp vụ lưu file ảnh 
 const storage = multer.diskStorage({
@@ -30,7 +31,8 @@ const imageFilter = function (req, file, cb) {
 let upload = multer({ storage: storage, fileFilter: imageFilter })
 
 // không viết dấu đóng ở ngoặc () gethomeController
-router.get("/", homeController.gethomeController)
+router.get("/admin/v1", MiddleWare.checkadmin , homeController.gethomeController)
+router.post("/admin/v1", homeController.postAdminV1 )
 
 router.get("/details/user/:userId", homeController.getDetailPage)
 
@@ -49,9 +51,9 @@ router.post("/upload-profile-pic", upload.single('profile_pic'), homeController.
 router.post("/upload-multiple-images", homeController.handleUploadMultipleFile)
 
 // login 
-router.post("/login", homeController.postLogin)
+router.post("/login", MiddleWare.checkLogin , homeController.postLogin)
 
-router.get("/login", homeController.getLogin)
+router.get("/login" ,homeController.getLogin)
 
 // register
 router.get("/register",homeController.getRegister)
@@ -60,6 +62,8 @@ router.post("/register",homeController.postRegister)
 
 // home
 router.post("/home",homeController.postHome)
+
+router.get("/home",homeController.getHome)
 
 
 module.exports = router

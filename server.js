@@ -34,19 +34,12 @@ app.use("/",initWebRouter)
 // init api router
 app.use("/api/v1/",initApiRouter)
 
+
 // authoraization  : login register
-Login(app)
 
 
-// set cookie
-app.get('/setcookie', (req, res) => {
-    res.cookie(`Cookie token name`,`fdsafdafda432q43`);
-    res.send('Cookie have been saved successfully');
-});
-app.get("/getcookie",(req,res)=>{
-    const token = req.cookies
-    res.status(200).json({message : token})
-})
+
+
 
 
 
